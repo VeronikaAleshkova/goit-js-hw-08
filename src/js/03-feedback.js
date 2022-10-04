@@ -11,23 +11,17 @@ const message = document.querySelector('textarea[name="message"]');
 const savedData = localStorage.getItem("feedback-form-state");
 const parsedData = JSON.parse(savedData);
 
+let formData = {};
+
 form.addEventListener('input', throttle(onFormInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
 savedFormState();
 
 function onFormInput(evt) {
-  const value = evt.target.value;
-  // console.log(value);
-  localStorage.setItem("feedback-form-state", JSON.stringify({email: email.value, message: message.value}));
-};
-
-function onFormSubmit(evt) {
-  evt.preventDefault();
-
-  evt.currentTarget.reset();
-  console.log(parsedData);
-  localStorage.removeItem("feedback-form-state");
+   formData = {email: email.value, message: message.value};
+  // console.log(formData);
+  localStorage.setItem("feedback-form-state", JSON.stringify(formData));
 };
 
 function savedFormState() {
@@ -36,4 +30,24 @@ function savedFormState() {
     email.value = parsedData.email;
     message.value = parsedData.message;
   }
-}
+};
+
+
+function onFormSubmit(evt) {
+  evt.preventDefault();
+
+  // const {email, message} = evt.currentTarget.elements;
+  // console.log(email.value);
+  // console.log(message.value);
+
+  if (email.value.trim() === '' || message.value.trim() === '') {
+    alert("Bсе поля должны быть заполнены!");
+    return;
+  };
+
+  console.log(parsedData);
+
+  evt.currentTarget.reset();
+  localStorage.removeItem("feedback-form-state");
+};
+
