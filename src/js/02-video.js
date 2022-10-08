@@ -20,7 +20,17 @@ const player = new Player(iframe);
 
 //--------------3 вариант-------------------------
 
-player.setCurrentTime(localStorage.getItem("videoplayer-current-time") || 0);
+// player.setCurrentTime(localStorage.getItem("videoplayer-current-time") || 0);
+
+//------------- 4 вариант-------------------------------
+
+// player.setCurrentTime(localStorage.getItem("videoplayer-current-time") ?? 0);
+
+//------------- 5 вариант-------------------------------
+
+let savedTime = localStorage.getItem("videoplayer-current-time") === null? 0 : localStorage.getItem("videoplayer-current-time");
+
+player.setCurrentTime(savedTime);
 
 
      player.on('timeupdate', throttle(onSaveTime, 1000));
